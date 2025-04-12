@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>www.ykylledzhotnहिंसा.ru</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            color: #000000;
+        }
+        #menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            z-index: 1;
+        }
+        #menu a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+        .soundcloud-player {
+            margin: 10px 0;
+            width: 100%;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="menu">
+        <a href="/">ग्लह</a>
+        <a href="/music.html">ग्लह</a>
+    </div>
+
+    <div class="soundcloud-players">
+
+        <iframe class="soundcloud-player" 
+            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1678423137&color=%23FF5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_playlist=false" 
+            height="166" scrolling="no" frameborder="no"></iframe>
+            
+
+    </div>
+
+    <script>
+        const validPaths = ['/', '/index.html', '/music.html'];
+        const currentPath = window.location.pathname;
+
+        if (!validPaths.includes(currentPath)) {
+            window.location.href = '/'; 
+        }
+    </script>
+
+</body>
+</html>
