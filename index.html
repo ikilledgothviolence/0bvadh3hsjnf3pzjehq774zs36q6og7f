@@ -79,16 +79,25 @@
                     'showinfo': 0,
                     'rel': 0,
                     'modestbranding': 1,
-                    'playsinline': 1
+                    'playsinline': 1,
+                    'loop': 1,
+                    'playlist': '3DGdwkeuaNA'
                 },
                 events: {
-                    'onReady': onPlayerReady
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
                 }
             });
         }
 
         function onPlayerReady(event) {
             player.setVolume(15);
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                player.playVideo();
+            }
         }
 
         const startButton = document.getElementById('startButton');
