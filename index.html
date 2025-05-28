@@ -14,15 +14,17 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            background-color: black;
         }
-        video {
+        #youtubePlayer {
             position: absolute;
             top: 50%;
             left: 50%;
             width: 100%;
             height: 100%;
-            object-fit: cover;
             transform: translate(-50%, -50%);
+            display: none;
+            pointer-events: none;
         }
         #menu {
             position: fixed;
@@ -60,21 +62,42 @@
         <a href="/music.html">ग्लह</a>
     </div>
 
-    <video id="ग्लह" loop>
-        <source src="http://www.ikilledgothviolence.ru/archive/IMG_3097.MP4" type="video/mp4">
-        ग्लह
-    </video>
+    <div id="youtubePlayer"></div>
 
     <button id="startButton">ग्लह</button>
 
     <script>
-        const video = document.getElementById('ग्लह');
+        let player;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtubePlayer', {
+                height: '1080',
+                width: '1920',
+                videoId: '3DGdwkeuaNA',
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'showinfo': 0,
+                    'rel': 0,
+                    'modestbranding': 1
+                    'playsinline': 1
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+        }
+
         const startButton = document.getElementById('startButton');
 
         startButton.addEventListener('click', () => {
-            video.play();
-            video.muted = false;
+            player.playVideo()
+            document.getElementById('youtubePlayer').style.display = 'block';
             startButton.style.display = 'none';
+            document.getElementById('youtubePlayer').style.pointerEvents = 'none';
         });
 
         const validPaths = ['/', '/index.html', '/music.html'];
@@ -84,6 +107,8 @@
             window.location.href = '/';
         }
     </script>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
