@@ -24,7 +24,6 @@
             height: 100%;
             transform: translate(-50%, -50%);
             display: none;
-            pointer-events: none;
         }
         #menu {
             position: fixed;
@@ -79,7 +78,7 @@
                     'controls': 0,
                     'showinfo': 0,
                     'rel': 0,
-                    'modestbranding': 1
+                    'modestbranding': 1,
                     'playsinline': 1
                 },
                 events: {
@@ -94,10 +93,10 @@
         const startButton = document.getElementById('startButton');
 
         startButton.addEventListener('click', () => {
-            player.playVideo()
+            player.playVideo();
             document.getElementById('youtubePlayer').style.display = 'block';
             startButton.style.display = 'none';
-            document.getElementById('youtubePlayer').style.pointerEvents = 'none';
+            document.getElementById('youtubePlayer').style.pointerEvents = 'auto'; // Установите обратно в 'auto'
         });
 
         const validPaths = ['/', '/index.html', '/music.html'];
