@@ -24,6 +24,7 @@
             height: 100%;
             transform: translate(-50%, -50%);
             display: none;
+            pointer-events: none;
         }
         #menu {
             position: fixed;
@@ -87,15 +88,15 @@
         }
 
         function onPlayerReady(event) {
+            player.setVolume(15);
         }
 
         const startButton = document.getElementById('startButton');
 
         startButton.addEventListener('click', () => {
-            player.playVideo();
             document.getElementById('youtubePlayer').style.display = 'block';
+            player.playVideo();
             startButton.style.display = 'none';
-            document.getElementById('youtubePlayer').style.pointerEvents = 'auto'; // Установите обратно в 'auto'
         });
 
         const validPaths = ['/', '/index.html', '/music.html'];
