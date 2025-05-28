@@ -48,18 +48,18 @@
     </div>
 
     <div class="soundcloud-players">
-
         <iframe class="soundcloud-player" 
+            id="track1"
             src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2101192548&color=%23FF5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_playlist=false" 
             height="166" scrolling="no" frameborder="no"></iframe>
 
         <iframe class="soundcloud-player" 
+            id="track2"
             src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2092360218&color=%23FF5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_playlist=false" 
             height="166" scrolling="no" frameborder="no"></iframe>
-            
-
     </div>
 
+    <script src="https://w.soundcloud.com/player/api.js"></script>
     <script>
         const validPaths = ['/', '/index.html', '/music.html'];
         const currentPath = window.location.pathname;
@@ -67,6 +67,19 @@
         if (!validPaths.includes(currentPath)) {
             window.location.href = '/'; 
         }
+
+        // Установка громкости на 15%
+        const setVolume = (iframe, volume) => {
+            const widget = SC.Widget(iframe);
+            widget.bind(SC.Widget.Events.READY, function() {
+                widget.setVolume(volume);
+            });
+        };
+
+        window.onload = function() {
+            setVolume(document.getElementById('track1'), 15);
+            setVolume(document.getElementById('track2'), 15);
+        };
     </script>
 
 </body>
