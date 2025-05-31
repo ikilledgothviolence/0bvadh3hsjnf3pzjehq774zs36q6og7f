@@ -50,8 +50,13 @@
 
 <div class="soundcloud-players">
     <iframe class="soundcloud-player" 
-        id="track1"
-        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2101192548&color=%23FF5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=true&show_playlist=false" 
+        id="1"
+        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2101192548&color=%23FF5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_playlist=false" 
+        height="166" scrolling="no" frameborder="no"></iframe>
+
+    <iframe class="soundcloud-player" 
+        id="2"
+        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2092360218&color=%23FF5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_playlist=false" 
         height="166" scrolling="no" frameborder="no"></iframe>
 </div>
 
@@ -72,7 +77,9 @@
     };
 
     window.onload = function() {
-        setVolume(document.getElementById('track1'), 15);
+        setVolume(document.getElementById('1'), 15);
+        setVolume(document.getElementById('2'), 15);
+
     };
 </script>
 
