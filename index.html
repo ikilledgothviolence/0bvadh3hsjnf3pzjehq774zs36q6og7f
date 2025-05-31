@@ -16,15 +16,14 @@
             align-items: center;
             background-color: black;
         }
-        #youtubePlayer {
+        #videoPlayer {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            transform: translate(-50%, -50%);
+            object-fit: cover;
             display: none;
-            pointer-events: none;
         }
         #menu {
             position: fixed;
@@ -61,50 +60,21 @@
         <a href="/music.html">i --&-- ii</a>
     </div>
 
-    <div id="youtubePlayer"></div>
+    <video id="videoPlayer" loop>
+        <source src="https://ikilledgothviolence.ru/archive/videoplayback.mp4" type="video/mp4">
+        Ваш браузер не поддерживает видео.
+    </video>
 
     <button id="startButton">दुःख</button>
 
     <script>
-        let player;
-
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtubePlayer', {
-                height: '1080',
-                width: '1920',
-                videoId: '3DGdwkeuaNA',
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'showinfo': 0,
-                    'rel': 0,
-                    'modestbranding': 1,
-                    'playsinline': 1,
-                    'loop': 1,
-                    'playlist': '3DGdwkeuaNA'
-                },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            player.setVolume(15);
-        }
-
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED) {
-                player.playVideo();
-            }
-        }
-
+        const videoPlayer = document.getElementById('videoPlayer');
         const startButton = document.getElementById('startButton');
 
         startButton.addEventListener('click', () => {
-            document.getElementById('youtubePlayer').style.display = 'block';
-            player.playVideo();
+            videoPlayer.style.display = 'block';
+            videoPlayer.volume = 0.15;
+            videoPlayer.play();
             startButton.style.display = 'none';
         });
 
@@ -115,8 +85,6 @@
             window.location.href = '/';
         }
     </script>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
