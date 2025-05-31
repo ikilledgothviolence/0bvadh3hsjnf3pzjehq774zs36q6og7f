@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="gothviolence, ikilledgothviolence">
     <meta name="robots" content="noindex, nofollow, noarchive">
-    <title>www.ykylledzhotnहिंसा.ru</title>
-
+    <title>www.ikilledgothviolence.ru</title>
     <style>
         body, html {
             margin: 0;
@@ -58,36 +57,34 @@
     </style>
 </head>
 <body>
+<div id="menu">
+    <a href="/music.html">i --&-- ii</a>
+</div>
 
-    <div id="menu">
-        <a href="/music.html">i --&-- ii</a>
-    </div>
+<video id="videoPlayer" loop>
+    <source src="https://ikilledgothviolence.ru/archive/videoplayback.mp4" type="video/mp4">
+    Ваш браузер не поддерживает видео.
+</video>
 
-    <video id="videoPlayer" loop>
-        <source src="https://ikilledgothviolence.ru/archive/videoplayback.mp4" type="video/mp4">
-        Ваш браузер не поддерживает видео.
-    </video>
+<button id="startButton">दुःख</button>
 
-    <button id="startButton">दुःख</button>
+<script>
+    const videoPlayer = document.getElementById('videoPlayer');
+    const startButton = document.getElementById('startButton');
 
-    <script>
-        const videoPlayer = document.getElementById('videoPlayer');
-        const startButton = document.getElementById('startButton');
+    startButton.addEventListener('click', () => {
+        videoPlayer.style.display = 'block';
+        videoPlayer.volume = 0.15;
+        videoPlayer.play();
+        startButton.style.display = 'none';
+    });
 
-        startButton.addEventListener('click', () => {
-            videoPlayer.style.display = 'block';
-            videoPlayer.volume = 0.15;
-            videoPlayer.play();
-            startButton.style.display = 'none';
-        });
+    const validPaths = ['/', '/index.html', '/music', '/music.html'];
+    const currentPath = window.location.pathname;
 
-        const validPaths = ['/', '/index.html', 'music', '/music.html'];
-        const currentPath = window.location.pathname;
-
-        if (!validPaths.includes(currentPath)) {
-            window.location.href = '/';
-        }
-    </script>
-
+    if (!validPaths.includes(currentPath)) {
+        window.location.href = '/';
+    }
+</script>
 </body>
 </html>
