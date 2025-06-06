@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="gothviolence, ikilledgothviolence">
-    <meta name="robots" content="noindex, nofollow, noarchive">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="keywords" content="gothviolence, ikilledgothviolence" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
     <title>www.ikilledgothviolence.ru</title>
     <style>
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             height: 100%;
@@ -16,7 +17,11 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: black;
+            background-image: url('https://ikilledgothviolence.ru/archive/photo_2025-06-06_08-46-28.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
         #videoPlayer {
             position: absolute;
@@ -57,39 +62,39 @@
     </style>
 </head>
 <body>
-<div id="menu">
-    <a href="/music.html">i --&-- ii</a>
-</div>
+    <div id="menu">
+        <a href="/music.html">i --&-- ii</a>
+    </div>
 
-<video id="videoPlayer" loop>
-    <source src="https://ikilledgothviolence.ru/archive/videoplayback.mp4" type="video/mp4">
-    Ваш браузер не поддерживает видео.
-</video>
+    <video id="videoPlayer" loop>
+        <source src="https://ikilledgothviolence.ru/archive/videoplayback.mp4" type="video/mp4" />
+        Ваш браузер не поддерживает видео.
+    </video>
 
-<button id="startButton">दुःख</button>
+    <button id="startButton">दुःख</button>
 
-<script>
-    const videoPlayer = document.getElementById('videoPlayer');
-    const startButton = document.getElementById('startButton');
+    <script>
+        const videoPlayer = document.getElementById('videoPlayer');
+        const startButton = document.getElementById('startButton');
 
-    startButton.addEventListener('click', () => {
-        videoPlayer.style.display = 'block';
-        videoPlayer.volume = 0.15;
-        videoPlayer.play();
-        startButton.style.display = 'none';
-    });
+        startButton.addEventListener('click', () => {
+            videoPlayer.style.display = 'block';
+            videoPlayer.volume = 0.15;
+            videoPlayer.play();
+            startButton.style.display = 'none';
+        });
 
-    const validPaths = ['/', '/index.html', '/music.html'];
-    const currentPath = window.location.pathname;
+        const validPaths = ['/', '/index.html', '/music.html'];
+        const currentPath = window.location.pathname;
 
-    if (!validPaths.includes(currentPath)) {
-        window.location.href = '/';
-    }
-</script>
+        if (!validPaths.includes(currentPath)) {
+            window.location.href = '/';
+        }
+    </script>
 
-<!--
-This program is licensed under the GNU General Public License v3.0.
-See <http://www.gnu.org/licenses/> for details.
--->
+    <!--
+    This program is licensed under the GNU General Public License v3.0.
+    See <http://www.gnu.org/licenses/> for details.
+    -->
 </body>
 </html>
