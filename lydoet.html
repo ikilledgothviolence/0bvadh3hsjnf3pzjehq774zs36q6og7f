@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Страница lydoet</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: black;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
+      /* Шрифт не задан, как в index.html */
+    }
+
+    /* Точное меню из index.html */
+    #menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    #menu a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 18px;
+    }
+    #menu a:hover,
+    #menu a:focus {
+      text-decoration: underline;
+      outline: none;
+    }
+
+    /* Центрированный вертикальный блок с простыми кликабельными текстами */
+    #centerText {
+      margin-top: 64px; /* отступ под меню высотой 64px */
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+      justify-content: center;
+      height: calc(100vh - 64px);
+      max-width: 90vw;
+    }
+
+    /* Простые ссылки текста без декоративного дизайна */
+    .text-link {
+      color: white;
+      font-size: 18px;
+      text-decoration: none;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .text-link:hover,
+    .text-link:focus {
+      text-decoration: underline;
+      outline: none;
+    }
+
+    @media (max-width: 480px) {
+      #menu a {
+        font-size: 16px;
+        margin: 0 10px;
+      }
+
+      .text-link {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="menu" role="navigation" aria-label="Главное меню">
+    <a href="https://soundcloud.com/gothviolence" target="_blank" rel="noopener noreferrer" tabindex="0">
+      i --&-- ii
+    </a>
+  </div>
+
+  <main id="centerText" role="main" aria-label="Основное содержимое страницы">
+    <a href="https://ikilledgothviolence.ru/92043f09as.png" target="_blank" rel="noopener noreferrer" class="text-link" tabindex="0">текст-1</a>
+    <a href="https://ikilledgothviolence.ru/92043f09as.png" target="_blank" rel="noopener noreferrer" class="text-link" tabindex="0">текст-2</a>
+  </main>
+</body>
+</html>
