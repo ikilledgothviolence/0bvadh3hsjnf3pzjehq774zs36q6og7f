@@ -69,22 +69,40 @@
         <a href="https://soundcloud.com/gothviolence" target="_blank" rel="noopener noreferrer">i --&-- ii</a>
     </div>
 
-    <video id="videoPlayer" loop playsinline>
+    <video id="videoPlayer" playsinline>
         <source src="https://ikilledgothviolence.ru/archive/videoplayback.mp4" type="video/mp4" />
         Ваш браузер не поддерживает видео.
     </video>
+
+    <audio id="audioPlayer" loop>
+        <source src="https://ikilledgothviolence.ru/archive/╝Ћ६Ꭿჩ†ᗫ4ʍᏘ₲ξ♀.mp4" type="audio/mp4" />
+        Ваш браузер не поддерживает аудио.
+    </audio>
 
     <button id="startButton">दुःख</button>
 
     <script>
         const videoPlayer = document.getElementById('videoPlayer');
+        const audioPlayer = document.getElementById('audioPlayer');
         const startButton = document.getElementById('startButton');
 
+        window.addEventListener('load', () => {
+            audioPlayer.volume = 0.10;
+            audioPlayer.play();
+        });
+
         startButton.addEventListener('click', () => {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+
             videoPlayer.style.display = 'block';
             startButton.style.display = 'none';
             videoPlayer.volume = 0.10;
             videoPlayer.play();
+        });
+
+        videoPlayer.addEventListener('ended', () => {
+            location.reload();
         });
 
     </script>
