@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="keywords" content="gothviolence, ikilledgothviolence" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>www.ikilledgothviolence.ru</title>
+    <style>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<style>
+  /* Общие стили */
+  html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  header {
+    height: 64px;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 24px;
+    border-bottom: 2px solid #444;
+    letter-spacing: 0.05em;
+    user-select: none;
+  }
+  main {
+    flex: 1 0 auto;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  /* Форма создания темы */
+  form#postForm {
+    background: #111;
+    border: 2px solid #444;
+    padding: 16px;
+    border-radius: 4px;
+    margin-bottom: 40px;
+  }
+  form#postForm label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 13px;
+  }
+  form#postForm input[type="text"],
+  form#postForm textarea {
+    width: 100%;
+    background: #000;
+    border: 1px solid #666;
+    color: #eee;
+    font-size: 14px;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  form#postForm textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  form#postForm input[type="file"] {
+    margin-bottom: 16px;
+    color: #ccc;
+  }
+  form#postForm button {
+    background: #222;
+    border: 2px solid #666;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  form#postForm button:hover, form#postForm button:focus {
+    background: #444;
+    border-color: #aaa;
+    outline: none;
+  }
+
+  /* Ошибки формы */
+  .error {
+    color: #f55;
+    font-size: 12px;
+    margin-top: -12px;
+    margin-bottom: 12px;
+    user-select: none;
+  }
+
+  /* Сообщения на форуме */
+  #postsContainer {
+    background: #111;
+    border: 2px solid #444;
+    border-radius: 4px;
+  }
+  .post {
+    border-bottom: 1px solid #333;
+    padding: 16px;
+  }
+  .post:last-child {
+    border-bottom: none;
+  }
+  .post-header {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+  .post-content {
+    white-space: pre-wrap;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .post-media {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .post-media > * {
+    max-width: 120px;
+    max-height: 90px;
+    border: 1px solid #666;
+    border-radius: 3px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  .post-media a {
+    color: #ccc;
+    text-decoration: underline;
+    font-size: 12px;
+    max-width: none;
+    align-self: center;
+  }
+
+  /* Кнопка удаления поста */
+  .btn-delete {
+    font-family: "Material Icons";
+    cursor: pointer;
+    float: right;
+    color: #f55;
+    font-size: 18px;
+    user-select: none;
+    border: none;
+    background: none;
+    padding: 0;
+  }
+  .btn-delete:hover {
+    color: #f00;
+  }
+
+  /* Адаптивность */
+  @media (max-width: 640px) {
+    main {
+      padding: 12px;
+    }
+    .post-media > * {
+      max-width: 80px;
+      max-height: 60px;
+    }
+  }
+</style>
+</head>
+<body>
+<header>Форум 2000-х</header>
+<main>
+  <form id="postForm" aria-label="Форма создания сообщения на форуме" novalidate>
+    <label for="topicInput">Тема сообщения *</label>
+    <input type="text" id="topicInput" name="topic" placeholder="Введите тему" required aria-required="true" aria-describedby="topicError" />
+    <div class="error" id="topicError" aria-live="polite"></div>
+
+    <label for="messageInput">Сообщение *</label>
+    <textarea id="messageInput" name="message" placeholder="Введите текст сообщения" required aria-required="true" aria-describedby="messageError"></textarea>
+    <div class="error" id="messageError" aria-live="polite"></div>
+
+    <label for="filesInput">Загрузить видео, картинки, файлы</label>
+    <input type="file" id="filesInput" name="files" multiple aria-describedby="filesHelp" />
+    <small id="filesHelp" style="color:#999;user-select:none;">Поддерживаются изображения, видео и любые файлы.</small>
+
+    <button type="submit" aria-label="Отправить сообщение">Отправить</button>
+  </form>
+
+  <section id="postsContainer" aria-live="polite" aria-relevant="additions" aria-label="Список сообщений форума">
+    <!-- Сообщения будут добавляться сюда -->
+  </section>
+</main>
+
+<script>
+(() => {
+  const form = document.getElementById('postForm');
+  const topicInput = document.getElementById('topicInput');
+  const messageInput = document.getElementById('messageInput');
+  const filesInput = document.getElementById('filesInput');
+  const postsContainer = document.getElementById('postsContainer');
+  const topicError = document.getElementById('topicError');
+  const messageError = document.getElementById('messageError');
+
+  // Поддерживаемые видео/картинки для превью
+  const previewTypes = {
+    image: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'],
+    video: ['video/mp4', 'video/webm', 'video/ogg']
+  };
+
+  // Загрузка сообщений из localStorage
+  let posts = [];
+  function loadPosts() {
+    try {
+      const stored = localStorage.getItem('forum_posts_2000');
+      if (stored) posts = JSON.parse(stored);
+    } catch {
+      posts = [];
+    }
+  }
+  // Сохранение сообщений в localStorage
+  function savePosts() {
+    localStorage.setItem('forum_posts_2000', JSON.stringify(posts));
+  }
+
+  // Создать DOM элемент поста
+  function createPostElement(post, index) {
+    const postEl = document.createElement('article');
+    postEl.className = 'post';
+    postEl.setAttribute('tabindex', '0');
+
+    const headerEl = document.createElement('div');
+    headerEl.className = 'post-header';
+    headerEl.textContent = post.topic;
+
+    // Кнопка удалить
+    const btnDelete = document.createElement('button');
+    btnDelete.className = 'btn-delete material-icons';
+    btnDelete.setAttribute('aria-label', 'Удалить сообщение');
+    btnDelete.title = 'Удалить сообщение';
+    btnDelete.textContent = 'delete';
+    btnDelete.onclick = (e) => {
+      e.preventDefault();
+      if (confirm('Удалить это сообщение?')) {
+        posts.splice(index, 1);
+        savePosts();
+        renderPosts();
+      }
+    };
+    headerEl.appendChild(btnDelete);
+    postEl.appendChild(headerEl);
+
+    const contentEl = document.createElement('div');
+    contentEl.className = 'post-content';
+    contentEl.textContent = post.message;
+    postEl.appendChild(contentEl);
+
+    if (post.files && post.files.length > 0) {
+      const mediaWrap = document.createElement('div');
+      mediaWrap.className = 'post-media';
+      post.files.forEach(file => {
+        if (previewTypes.image.includes(file.type)) {
+          const img = document.createElement('img');
+          img.src = file.dataUrl;
+          img.alt = `Изображение: ${file.name}`;
+          img.tabIndex = 0;
+          mediaWrap.appendChild(img);
+        } else if (previewTypes.video.includes(file.type)) {
+          const video = document.createElement('video');
+          video.src = file.dataUrl;
+          video.controls = true;
+          video.title = `Видео: ${file.name}`;
+          video.tabIndex = 0;
+          video.style.maxHeight = '90px';
+          mediaWrap.appendChild(video);
+        } else {
+          const link = document.createElement('a');
+          link.href = file.dataUrl;
+          link.download = file.name;
+          link.textContent = `Файл: ${file.name}`;
+          link.tabIndex = 0;
+          mediaWrap.appendChild(link);
+        }
+      });
+      postEl.appendChild(mediaWrap);
+    }
+
+    return postEl;
+  }
+
+  // Показываем ошибки валидации
+  function validateForm() {
+    let valid = true;
+    topicError.textContent = '';
+    messageError.textContent = '';
+
+    if (!topicInput.value.trim()) {
+      topicError.textContent = 'Требуется ввести тему сообщения';
+      valid = false;
+    }
+    if (!messageInput.value.trim()) {
+      messageError.textContent = 'Требуется ввести текст сообщения';
+      valid = false;
+    }
+    return valid;
+  }
+
+  // Конвертируем файлы в base64 с type и name
+  function readFilesAsDataUrl(files) {
+    const promises = [];
+    for (const file of files) {
+      promises.push(new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          resolve({
+            name: file.name,
+            type: file.type,
+            dataUrl: reader.result
+          });
+        };
+        reader.onerror = () => {
+          resolve(null);
+        };
+        reader.readAsDataURL(file);
+      }));
+    }
+    return Promise.all(promises).then(results => results.filter(f => f !== null));
+  }
+
+  // Добавление сообщения
+  async function addPost(event) {
+    event.preventDefault();
+    if (!validateForm()) return;
+
+    let filesData = [];
+    if (filesInput.files.length > 0) {
+      filesData = await readFilesAsDataUrl(filesInput.files);
+    }
+
+    const newPost = {
+      topic: topicInput.value.trim(),
+      message: messageInput.value.trim(),
+      date: new Date().toISOString(),
+      files: filesData
+    };
+
+    posts.unshift(newPost);
+    savePosts();
+    renderPosts();
+
+    form.reset();
+    topicInput.focus();
+  }
+
+  // Отрисовка сообщений в контейнере
+  function renderPosts() {
+    postsContainer.innerHTML = '';
+    if (posts.length === 0) {
+      const emptyEl = document.createElement('p');
+      emptyEl.style.color = '#777';
+      emptyEl.style.textAlign = 'center';
+      emptyEl.style.padding = '40px 0';
+      emptyEl.textContent = 'Нет сообщений. Будьте первым!';
+      postsContainer.appendChild(emptyEl);
+      return;
+    }
+    posts.forEach((post, idx) => {
+      postsContainer.appendChild(createPostElement(post, idx));
+    });
+  }
+
+  // Инициализация
+  function init() {
+    loadPosts();
+    renderPosts();
+    form.addEventListener('submit', addPost);
+  }
+
+  // Запуск
+  init();
+})();
+</script>
+</body>
+</html>
