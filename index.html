@@ -82,22 +82,17 @@
 
         startButton.addEventListener('click', () => {
             videoPlayer.style.display = 'block';
-            videoPlayer.volume = 0.15;
-            videoPlayer.play();
             startButton.style.display = 'none';
+            videoPlayer.volume = 0.10;
+            videoPlayer.play();
         });
 
-        const validPaths = ['/', '/index.html'];
-        const currentPath = window.location.pathname;
-
-        if (!validPaths.includes(currentPath)) {
-            window.location.href = '/';
-        }
     </script>
 
     <!--
     This program is licensed under the GNU General Public License v3.0.
     See <http://www.gnu.org/licenses/> for details.
     -->
+    
 </body>
 </html>
