@@ -31,6 +31,7 @@
             height: 100%;
             object-fit: cover;
             display: none;
+            z-index: 0;
         }
         #menu {
             position: fixed;
@@ -41,7 +42,7 @@
             color: white;
             padding: 10px;
             text-align: center;
-            z-index: 1;
+            z-index: 10;
         }
         #menu a {
             color: white;
@@ -51,7 +52,7 @@
         }
         #startButton {
             position: relative;
-            z-index: 1;
+            z-index: 20;
             padding: 10px 20px;
             font-size: 20px;
             background-color: rgba(0, 0, 0, 0.8);
@@ -59,6 +60,7 @@
             border: none;
             cursor: pointer;
             margin-top: -420px;
+            user-select: none;
         }
     </style>
 </head>
@@ -67,7 +69,7 @@
         <a href="https://soundcloud.com/gothviolence" target="_blank" rel="noopener noreferrer">i --&-- ii</a>
     </div>
 
-    <video id="videoPlayer" loop>
+    <video id="videoPlayer" loop playsinline>
         <source src="https://ikilledgothviolence.ru/archive/videoplayback.mp4" type="video/mp4" />
         Ваш браузер не поддерживает видео.
     </video>
@@ -85,7 +87,7 @@
             startButton.style.display = 'none';
         });
 
-        const validPaths = ['/', '/index.html''];
+        const validPaths = ['/', '/index.html', '/music.html'];
         const currentPath = window.location.pathname;
 
         if (!validPaths.includes(currentPath)) {
