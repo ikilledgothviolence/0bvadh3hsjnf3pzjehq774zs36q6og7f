@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="keywords" content="gothviolence, ikilledgothviolence" />
     <meta name="robots" content="noindex, nofollow, noarchive" />
-    <title>www.ikilledgothviolence.ru</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <style>
-  /* Общие стили */
+<title>www.ikilledgothviolence.ru</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<style>
   html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #000000 !important;
-    color: #ffffff;
+    background-color: #000 !important;
+    color: #fff;
     font-family: Arial, sans-serif;
     font-size: 14px;
   }
@@ -42,8 +41,6 @@
     margin: 0 auto;
     box-sizing: border-box;
   }
-
-  /* Форма создания темы */
   form#postForm {
     background: #111;
     border: 2px solid #444;
@@ -91,8 +88,6 @@
     border-color: #aaa;
     outline: none;
   }
-
-  /* Ошибки формы */
   .error {
     color: #f55;
     font-size: 12px;
@@ -100,8 +95,6 @@
     margin-bottom: 12px;
     user-select: none;
   }
-
-  /* Сообщения на форуме */
   #postsContainer {
     background: #111;
     border: 2px solid #444;
@@ -144,24 +137,6 @@
     max-width: none;
     align-self: center;
   }
-
-  /* Кнопка удаления поста */
-  .btn-delete {
-    font-family: "Material Icons";
-    cursor: pointer;
-    float: right;
-    color: #f55;
-    font-size: 18px;
-    user-select: none;
-    border: none;
-    background: none;
-    padding: 0;
-  }
-  .btn-delete:hover {
-    color: #f00;
-  }
-
-  /* Адаптивность */
   @media (max-width: 640px) {
     main {
       padding: 12px;
@@ -172,6 +147,10 @@
     }
   }
 </style>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 <header>www.ikilledgothviolence.ru</header>
@@ -187,7 +166,7 @@
 
     <label for="filesInput">Загрузить видео, картинки, файлы</label>
     <input type="file" id="filesInput" name="files" multiple aria-describedby="filesHelp" />
-    <small id="filesHelp" style="color:#999;user-select:none;">Поддерживаются изображения, видео и любые файлы.</small>
+    <small id="filesHelp" style="color:#999;user-select:none;">Поддерживаются изображения, видео и любые файлы.<br>Файлы автоматически загружаются на Firebase Storage.</small>
 
     <button type="submit" aria-label="Отправить сообщение">Отправить</button>
   </form>
@@ -199,6 +178,20 @@
 
 <script>
 (() => {
+  // Firebase конфигурация — замените на вашу (пример, нужно создать проект в Firebase)
+  const firebaseConfig = {
+    apiKey: "ВАШ_API_KEY",
+    authDomain: "ВАШ_AUTH_DOMAIN",
+    projectId: "ВАШ_PROJECT_ID",
+    storageBucket: "ВАШ_STORAGE_BUCKET",
+    messagingSenderId: "ВАШ_MESSAGING_SENDER_ID",
+    appId: "ВАШ_APP_ID"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const storage = firebase.storage();
+
   const form = document.getElementById('postForm');
   const topicInput = document.getElementById('topicInput');
   const messageInput = document.getElementById('messageInput');
@@ -207,86 +200,13 @@
   const topicError = document.getElementById('topicError');
   const messageError = document.getElementById('messageError');
 
+  // Поддерживаемые типы превью
   const previewTypes = {
     image: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'],
     video: ['video/mp4', 'video/webm', 'video/ogg']
   };
 
-  let posts = [];
-  function loadPosts() {
-    try {
-      const stored = localStorage.getItem('forum_posts_2000');
-      if (stored) posts = JSON.parse(stored);
-    } catch {
-      posts = [];
-    }
-  }
-  function savePosts() {
-    localStorage.setItem('forum_posts_2000', JSON.stringify(posts));
-  }
-
-  function createPostElement(post, index) {
-    const postEl = document.createElement('article');
-    postEl.className = 'post';
-    postEl.setAttribute('tabindex', '0');
-
-    const headerEl = document.createElement('div');
-    headerEl.className = 'post-header';
-    headerEl.textContent = post.topic;
-
-    const btnDelete = document.createElement('button');
-    btnDelete.className = 'btn-delete material-icons';
-    btnDelete.setAttribute('aria-label', 'Удалить сообщение');
-    btnDelete.title = 'Удалить сообщение';
-    btnDelete.textContent = 'delete';
-    btnDelete.onclick = (e) => {
-      e.preventDefault();
-      if (confirm('Удалить это сообщение?')) {
-        posts.splice(index, 1);
-        savePosts();
-        renderPosts();
-      }
-    };
-    headerEl.appendChild(btnDelete);
-    postEl.appendChild(headerEl);
-
-    const contentEl = document.createElement('div');
-    contentEl.className = 'post-content';
-    contentEl.textContent = post.message;
-    postEl.appendChild(contentEl);
-
-    if (post.files && post.files.length > 0) {
-      const mediaWrap = document.createElement('div');
-      mediaWrap.className = 'post-media';
-      post.files.forEach(file => {
-        if (previewTypes.image.includes(file.type)) {
-          const img = document.createElement('img');
-          img.src = file.dataUrl;
-          img.alt = `Изображение: ${file.name}`;
-          img.tabIndex = 0;
-          mediaWrap.appendChild(img);
-        } else if (previewTypes.video.includes(file.type)) {
-          const video = document.createElement('video');
-          video.src = file.dataUrl;
-          video.controls = true;
-          video.title = `Видео: ${file.name}`;
-          video.tabIndex = 0;
-          video.style.maxHeight = '90px';
-          mediaWrap.appendChild(video);
-        } else {
-          const link = document.createElement('a');
-          link.href = file.dataUrl;
-          link.download = file.name;
-          link.textContent = `Файл: ${file.name}`;
-          link.tabIndex = 0;
-          mediaWrap.appendChild(link);
-        }
-      });
-      postEl.appendChild(mediaWrap);
-    }
-
-    return postEl;
-  }
+  // Валидация формы
   function validateForm() {
     let valid = true;
     topicError.textContent = '';
@@ -302,52 +222,77 @@
     }
     return valid;
   }
-  function readFilesAsDataUrl(files) {
-    const promises = [];
+
+  // Загрузка файлов на Firebase Storage и получение URL
+  async function uploadFiles(files) {
+    const uploadPromises = [];
     for (const file of files) {
-      promises.push(new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          resolve({
-            name: file.name,
-            type: file.type,
-            dataUrl: reader.result
-          });
-        };
-        reader.onerror = () => {
-          resolve(null);
-        };
-        reader.readAsDataURL(file);
-      }));
+      const storageRef = storage.ref('forum_files/' + Date.now() + '_' + file.name);
+      const uploadTask = storageRef.put(file);
+      uploadPromises.push(uploadTask.then(() => storageRef.getDownloadURL()).then(url => ({
+        name: file.name,
+        type: file.type,
+        url
+      })));
     }
-    return Promise.all(promises).then(results => results.filter(f => f !== null));
+    return Promise.all(uploadPromises);
   }
-  async function addPost(event) {
-    event.preventDefault();
-    if (!validateForm()) return;
 
-    let filesData = [];
-    if (filesInput.files.length > 0) {
-      filesData = await readFilesAsDataUrl(filesInput.files);
+  // Создание DOM-элемента одного сообщения
+  function createPostElement(post) {
+    const postEl = document.createElement('article');
+    postEl.className = 'post';
+    postEl.setAttribute('tabindex', '0');
+
+    const headerEl = document.createElement('div');
+    headerEl.className = 'post-header';
+    headerEl.textContent = post.topic;
+
+    postEl.appendChild(headerEl);
+
+    const contentEl = document.createElement('div');
+    contentEl.className = 'post-content';
+    contentEl.textContent = post.message;
+    postEl.appendChild(contentEl);
+
+    if (post.files && post.files.length > 0) {
+      const mediaWrap = document.createElement('div');
+      mediaWrap.className = 'post-media';
+      post.files.forEach(file => {
+        if (previewTypes.image.includes(file.type)) {
+          const img = document.createElement('img');
+          img.src = file.url;
+          img.alt = `Изображение: ${file.name}`;
+          img.tabIndex = 0;
+          mediaWrap.appendChild(img);
+        } else if (previewTypes.video.includes(file.type)) {
+          const video = document.createElement('video');
+          video.src = file.url;
+          video.controls = true;
+          video.title = `Видео: ${file.name}`;
+          video.tabIndex = 0;
+          video.style.maxHeight = '90px';
+          mediaWrap.appendChild(video);
+        } else {
+          const link = document.createElement('a');
+          link.href = file.url;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = `Файл: ${file.name}`;
+          link.tabIndex = 0;
+          mediaWrap.appendChild(link);
+        }
+      });
+      postEl.appendChild(mediaWrap);
     }
 
-    const newPost = {
-      topic: topicInput.value.trim(),
-      message: messageInput.value.trim(),
-      date: new Date().toISOString(),
-      files: filesData
-    };
-
-    posts.unshift(newPost);
-    savePosts();
-    renderPosts();
-
-    form.reset();
-    topicInput.focus();
+    return postEl;
   }
-  function renderPosts() {
+
+  // Отрисовка всех сообщений
+  function renderPosts(posts) {
     postsContainer.innerHTML = '';
-    if (posts.length === 0) {
+    if (!posts.length) {
       const emptyEl = document.createElement('p');
       emptyEl.style.color = '#777';
       emptyEl.style.textAlign = 'center';
@@ -356,16 +301,61 @@
       postsContainer.appendChild(emptyEl);
       return;
     }
-    posts.forEach((post, idx) => {
-      postsContainer.appendChild(createPostElement(post, idx));
+    posts.forEach(post => {
+      postsContainer.appendChild(createPostElement(post));
     });
   }
-  function init() {
-    loadPosts();
-    renderPosts();
-    form.addEventListener('submit', addPost);
+
+  // Загрузка и слушатель изменений в Firestore - обновление в реальном времени
+  function subscribePosts() {
+    db.collection('forum_posts_2000').orderBy('createdAt', 'desc').onSnapshot((snapshot) => {
+      const posts = [];
+      snapshot.forEach(doc => {
+        posts.push(doc.data());
+      });
+      renderPosts(posts);
+    });
   }
-  init();
+
+  // Обработчик отправки формы
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!validateForm()) return;
+
+    let uploadedFiles = [];
+    const files = filesInput.files;
+
+    if (files.length > 0) {
+      form.querySelector('button').disabled = true;
+      try {
+        uploadedFiles = await uploadFiles(files);
+      } catch (error) {
+        alert('Ошибка загрузки файлов: ' + error.message);
+        form.querySelector('button').disabled = false;
+        return;
+      }
+      form.querySelector('button').disabled = false;
+    }
+
+    // Создаем объект сообщения
+    const newPost = {
+      topic: topicInput.value.trim(),
+      message: messageInput.value.trim(),
+      files: uploadedFiles,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    try {
+      await db.collection('forum_posts_2000').add(newPost);
+      form.reset();
+      topicInput.focus();
+    } catch (error) {
+      alert('Ошибка отправки сообщения: ' + error.message);
+    }
+  });
+
+  // Инициализация
+  subscribePosts();
 })();
 </script>
 </body>
