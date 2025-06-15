@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="keywords" content="gothviolence, ikilledgothviolence" />
-    <meta name="robots" content="noindex, nofollow, noarchive" />
-    <title>www.ikilledgothviolence.ru</title>
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Страница lydoet</title>
+  <style>
     html, body {
       margin: 0;
       padding: 0;
@@ -18,8 +16,10 @@
       justify-content: center;
       align-items: center;
       overflow-y: auto;
+      /* Шрифт не задан, как в index.html */
     }
 
+    /* Меню из index.html */
     #menu {
       position: fixed;
       top: 0;
@@ -44,8 +44,9 @@
       outline: none;
     }
 
+    /* Центрированный вертикальный блок */
     #centerText {
-      margin-top: 64px;
+      margin-top: 64px; /* отступ под меню */
       display: flex;
       flex-direction: column;
       gap: 24px;
@@ -55,6 +56,7 @@
       max-width: 90vw;
     }
 
+    /* Простые ссылки текста */
     .text-link {
       color: white;
       font-size: 18px;
@@ -82,13 +84,13 @@
   </style>
 </head>
 <body>
-  <div id="menu" role="navigation"
-    <a href="./index.html" tabindex="0">ii --&-- i</a>
+  <div id="menu" role="navigation" aria-label="Главное меню">
+    <a href="./index.html" tabindex="0">i --&-- ii</a>
   </div>
 
-  <main id="centerText" role="main"
-    <a href="https://ikilledgothviolence.ru/2ndpg6cuu5sbh9srkmj8fxsq9585hwv7.png" target="_blank" rel="noopener noreferrer" class="text-link" tabindex="0">i</a>
-    <a href="https://ikilledgothviolence.ru/p2qthec4ahppulj0io8kwhn9esnbqhos" target="_blank" rel="noopener noreferrer" class="text-link" tabindex="0">ii</a>
+  <main id="centerText" role="main" aria-label="Основное содержимое страницы">
+    <a href="https://ikilledgothviolence.ru/92043f09as.png" target="_blank" rel="noopener noreferrer" class="text-link" tabindex="0">текст-1</a>
+    <a href="https://ikilledgothviolence.ru/92043f09as.png" target="_blank" rel="noopener noreferrer" class="text-link" tabindex="0">текст-2</a>
   </main>
 </body>
 </html>
