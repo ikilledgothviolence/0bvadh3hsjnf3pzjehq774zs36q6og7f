@@ -7,61 +7,72 @@
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <title>www.ikilledgothviolence.ru</title>
     <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background-color: black;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      overflow-y: auto;
+  html, body {
+    margin: 0; padding: 0;
+    height: 100%;
+    background-color: black;
+    color: white;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #menu {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    z-index: 10;
+    user-select: none;
+  }
+  #menu a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 18px;
+  }
+  #menu a:hover,
+  #menu a:focus {
+    text-decoration: underline;
+    outline: none;
+  }
+  main#gallery {
+    margin-top: 60px;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding-bottom: 40px;
+  }
+  #gallery a {
+    display: block;
+    width: 480px;
+    height: 480px;
+    max-width: 90vw;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #111;
+  }
+  #gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+  }
+  @media (max-width: 520px) {
+    #gallery a {
+      width: 90vw;
+      height: 90vw;
     }
-
-    #menu {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background-color: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 10px;
-      text-align: center;
-      z-index: 10;
-    }
-
-    #menu a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-size: 18px;
-    }
-    #menu a:hover,
-    #menu a:focus {
-      text-decoration: underline;
-      outline: none;
-    }
-
-    #gallery img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 12px;
-      object-fit: contain;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      background-color: #111;
-    }
-
-    #gallery img:hover,
-    #gallery img:focus {
-      transform: scale(1.05);
-      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.8);
-      outline: none;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <div id="menu" role="navigation" aria-label="">
@@ -70,18 +81,17 @@
 
   <main id="gallery" role="main" aria-label="">
     <a href="https://ikilledgothviolence.ru/archive/2ndpg6cuu5sbh9srkmj8fxsq9585hwv7.jpg" target="_blank" rel="noopener noreferrer" tabindex="0">
-      <img src="https://ikilledgothviolence.ru/archive/2ndpg6cuu5sbh9srkmj8fxsq9585hwv7.jpg" alt="Фото с сюрреалистическим темным художественным изображением, насыщенные глубокие оттенки и контраст" loading="lazy" />
+      <img src="https://ikilledgothviolence.ru/archive/2ndpg6cuu5sbh9srkmj8fxsq9585hwv7.jpg" alt="" loading="lazy" />
     </a>
     <a href="https://ikilledgothviolence.ru/archive/p2qthec4ahppulj0io8kwhn9esnbqhos.jpg" target="_blank" rel="noopener noreferrer" tabindex="0">
-      <img src="https://ikilledgothviolence.ru/archive/p2qthec4ahppulj0io8kwhn9esnbqhos.jpg" alt="Фото с атмосферным ночным пейзажем с дымкой и яркими световыми эффектами" loading="lazy" />
+      <img src="https://ikilledgothviolence.ru/archive/p2qthec4ahppulj0io8kwhn9esnbqhos.jpg" alt="" loading="lazy" />
     </a>
     <a href="https://ikilledgothviolence.ru/archive/wwhrdp6hejll3xtlocspzao8lmarqjpy.jpg" target="_blank" rel="noopener noreferrer" tabindex="0">
-      <img src="https://ikilledgothviolence.ru/archive/wwhrdp6hejll3xtlocspzao8lmarqjpy.jpg" alt="Фото современной абстрактной композиции с тенями и минималистичной цветовой палитрой" loading="lazy" />
+      <img src="https://ikilledgothviolence.ru/archive/wwhrdp6hejll3xtlocspzao8lmarqjpy.jpg" alt="" loading="lazy" />
     </a>
     <a href="https://ikilledgothviolence.ru/archive/rjbjsqd06frsxrf5k4wa8z9cpqsoao6r.jpg" target="_blank" rel="noopener noreferrer" tabindex="0">
-      <img src="https://ikilledgothviolence.ru/archive/rjbjsqd06frsxrf5k4wa8z9cpqsoao6r.jpg" alt="Фото черно-белой художественной фотографии с сильной игрой контраста и светотени" loading="lazy" />
+      <img src="https://ikilledgothviolence.ru/archive/rjbjsqd06frsxrf5k4wa8z9cpqsoao6r.jpg" alt="" loading="lazy" />
     </a>
   </main>
 </body>
 </html>
-
