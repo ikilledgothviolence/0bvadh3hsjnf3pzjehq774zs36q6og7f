@@ -6,14 +6,14 @@
     <meta name="keywords" content="gothviolence, ikilledgothviolence" />
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <title>www.ikilledgothviolence.ru</title>
-    <style>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-<style>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
   /* Общие стили */
   html, body {
     height: 100%;
     margin: 0;
-    background-color: #000000;
+    padding: 0;
+    background-color: #000000 !important;
     color: #ffffff;
     font-family: Arial, sans-serif;
     font-size: 14px;
@@ -207,13 +207,11 @@
   const topicError = document.getElementById('topicError');
   const messageError = document.getElementById('messageError');
 
-  // Поддерживаемые видео/картинки для превью
   const previewTypes = {
     image: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'],
     video: ['video/mp4', 'video/webm', 'video/ogg']
   };
 
-  // Загрузка сообщений из localStorage
   let posts = [];
   function loadPosts() {
     try {
@@ -223,12 +221,10 @@
       posts = [];
     }
   }
-  // Сохранение сообщений в localStorage
   function savePosts() {
     localStorage.setItem('forum_posts_2000', JSON.stringify(posts));
   }
 
-  // Создать DOM элемент поста
   function createPostElement(post, index) {
     const postEl = document.createElement('article');
     postEl.className = 'post';
@@ -238,7 +234,6 @@
     headerEl.className = 'post-header';
     headerEl.textContent = post.topic;
 
-    // Кнопка удалить
     const btnDelete = document.createElement('button');
     btnDelete.className = 'btn-delete material-icons';
     btnDelete.setAttribute('aria-label', 'Удалить сообщение');
@@ -292,8 +287,6 @@
 
     return postEl;
   }
-
-  // Показываем ошибки валидации
   function validateForm() {
     let valid = true;
     topicError.textContent = '';
@@ -309,8 +302,6 @@
     }
     return valid;
   }
-
-  // Конвертируем файлы в base64 с type и name
   function readFilesAsDataUrl(files) {
     const promises = [];
     for (const file of files) {
@@ -331,8 +322,6 @@
     }
     return Promise.all(promises).then(results => results.filter(f => f !== null));
   }
-
-  // Добавление сообщения
   async function addPost(event) {
     event.preventDefault();
     if (!validateForm()) return;
@@ -356,8 +345,6 @@
     form.reset();
     topicInput.focus();
   }
-
-  // Отрисовка сообщений в контейнере
   function renderPosts() {
     postsContainer.innerHTML = '';
     if (posts.length === 0) {
@@ -373,15 +360,11 @@
       postsContainer.appendChild(createPostElement(post, idx));
     });
   }
-
-  // Инициализация
   function init() {
     loadPosts();
     renderPosts();
     form.addEventListener('submit', addPost);
   }
-
-  // Запуск
   init();
 })();
 </script>
