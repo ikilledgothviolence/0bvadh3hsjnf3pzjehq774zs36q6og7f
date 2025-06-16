@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,7 +7,6 @@
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <title>www.ikilledgothviolence.ru</title>
     <style>
-        /* Минималистичный стиль 2000-х годов */
         * {
             margin: 0;
             padding: 0;
@@ -101,6 +100,9 @@
             max-width: 300px;
             text-align: center;
         }
+        .file-input {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -109,24 +111,21 @@
 </header>
 <main>
     <section aria-live="polite" aria-relevant="additions removals">
-        <div id="posts-container" tabindex="0" aria-label="Сообщения форума">
-            Загрузка сообщений...
+        <div id="posts-container" tabindex="0" aria-label="Forum messages">
+            Loading messages...
         </div>
 
-        <form id="new-post-form" aria-label="Добавить новый комментарий" novalidate>
-            <label for="username-input">Никнейм:</label>
-            <input id="username-input" name="username" type="text" maxlength="30" required placeholder="Ваш ник" autocomplete="off" />
+        <form id="new-post-form" aria-label="Add a new comment" novalidate>
+            <label for="username-input">Name:</label>
+            <input id="username-input" name="username" type="text" maxlength="30" required placeholder="Your nickname" autocomplete="off" />
 
-            <label for="text-input">Сообщение:</label>
-            <textarea id="text-input" name="text" maxlength="500" rows="4" required placeholder="Ваш комментарий"></textarea>
+            <label for="text-input">Message:</label>
+            <textarea id="text-input" name="text" maxlength="500" rows="4" required placeholder="Your comment"></textarea>
 
-            <label for="file-url-input">URL файла (изображение, аудио или видео):</label>
-            <input id="file-url-input" name="fileUrl" type="text" placeholder="URL к файлу" />
+            <label for="file-input">Attach a file:</label>
+            <input id="file-input" name="file" type="file" class="file-input" accept="image/*,audio/*,video/*" />
 
-            <label for="file-type-input">Тип файла:</label>
-            <input id="file-type-input" name="fileType" type="text" placeholder="image/jpeg, audio/mpeg, video/mp4" />
-
-            <button type="submit" disabled>Отправить</button>
+            <button type="submit" disabled>Submit</button>
         </form>
     </section>
 </main>
@@ -134,14 +133,13 @@
 <div id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
 <script>
-    const CSV_URL = 'comments.csv'; // Используйте относительный путь к вашему CSV
+    const CSV_URL = 'comments.csv'; // Use relative path to your CSV
 
     const postsContainer = document.getElementById('posts-container');
     const form = document.getElementById('new-post-form');
     const usernameInput = document.getElementById('username-input');
     const textInput = document.getElementById('text-input');
-    const fileUrlInput = document.getElementById('file-url-input');
-    const fileTypeInput = document.getElementById('file-type-input');
+    const fileInput = document.getElementById('file-input');
     const submitBtn = form.querySelector('button');
     const toast = document.getElementById('toast');
 
@@ -170,13 +168,13 @@
     function renderPosts(posts) {
         postsContainer.innerHTML = '';
         if(posts.length === 0) {
-            postsContainer.textContent = 'Пока нет сообщений.';
+            postsContainer.textContent = 'No messages yet.';
             return;
         }
         posts.forEach(post => {
             const article = document.createElement('article');
             article.className = 'post';
-            const dateStr = new Date(post.date).toLocaleString('ru-RU', {dateStyle: 'short', timeStyle: 'short'}) || post.date;
+            const dateStr = new Date(post.date).toLocaleString('en-US', {dateStyle: 'short', timeStyle: 'short'}) || post.date;
             article.innerHTML = `
                 <div class="post-header">
                     <span>${escapeHtml(post.username)}</span>
@@ -186,16 +184,16 @@
             `;
             if (post.fileUrl) {
                 if (post.fileType.startsWith('image/')) {
-                    article.innerHTML += `<img src="${escapeHtml(post.fileUrl)}" alt="Изображение" style="max-width: 100%; height: auto; margin-top: 10px;" />`;
+                    article.innerHTML += `<img src="${escapeHtml(post.fileUrl)}" alt="Image" style="max-width: 100%; height: auto; margin-top: 10px;" />`;
                 } else if (post.fileType.startsWith('audio/')) {
                     article.innerHTML += `<audio controls style="margin-top: 10px;">
                         <source src="${escapeHtml(post.fileUrl)}" type="${escapeHtml(post.fileType)}">
-                        Ваш браузер не поддерживает аудио.
+                        Your browser does not support audio.
                     </audio>`;
                 } else if (post.fileType.startsWith('video/')) {
-                    article.innerHTML += `<video controls style="margin-top: 10px; max-width: 100%;">
+                    article.innerHTML += `<video controls style="margin-top: 10px; max-width: 100%; height: auto;">
                         <source src="${escapeHtml(post.fileUrl)}" type="${escapeHtml(post.fileType)}">
-                        Ваш браузер не поддерживает видео.
+                        Your browser does not support video.
                     </video>`;
                 }
             }
@@ -204,16 +202,16 @@
     }
 
     async function loadPosts() {
-        postsContainer.textContent = 'Загрузка сообщений...';
+        postsContainer.textContent = 'Loading messages...';
         try {
             const res = await fetch(CSV_URL);
-            if(!res.ok) throw new Error('Ошибка загрузки CSV');
+            if(!res.ok) throw new Error('Error loading CSV');
             const text = await res.text();
             let posts = parseCSV(text);
             posts.sort((a, b) => new Date(b.date) - new Date(a.date));
             renderPosts(posts);
         } catch(e) {
-            postsContainer.textContent = 'Ошибка загрузки сообщений.';
+            postsContainer.textContent = 'Error loading messages.';
             console.error(e);
         }
     }
@@ -237,7 +235,7 @@
 
     form.addEventListener('submit', e => {
         e.preventDefault();
-        showToast('Отправка сообщений на данный момент невозможна. Пожалуйста, редактируйте CSV вручную.', 5000);
+        showToast('Submitting messages is currently not possible.', 5000);
     });
 
     loadPosts();
