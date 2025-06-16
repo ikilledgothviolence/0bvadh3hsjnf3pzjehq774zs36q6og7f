@@ -103,10 +103,9 @@
         .file-input {
             margin-top: 10px;
         }
-        /* Уменьшение размера видео */
         video {
-            max-width: 300px; /* Установите желаемую максимальную ширину */
-            height: auto; /* Высота будет пропорциональна ширине */
+            max-width: 300px;
+            height: auto;
         }
     </style>
 </head>
@@ -138,7 +137,7 @@
 <div id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
 <script>
-    const CSV_URL = 'comments.csv'; // Use relative path to your CSV
+    const CSV_URL = 'comments.csv';
 
     const postsContainer = document.getElementById('posts-container');
     const form = document.getElementById('new-post-form');
@@ -176,7 +175,43 @@
             postsContainer.textContent = 'No messages yet.';
             return;
         }
-        posts.forEach(post => {
+
+        // Сортируем сообщения, чтобы первое сообщение всегда было первым
+        const firstPost = posts[0]; // Сохраняем первое сообщение
+        const otherPosts = posts.slice(1); // Остальные сообщения
+
+        // Отображаем первое сообщение
+        if (firstPost) {
+            const article = document.createElement('article');
+            article.className = 'post';
+            const dateStr = new Date(firstPost.date).toLocaleString('en-US', {dateStyle: 'short', timeStyle: 'short'}) || firstPost.date;
+            article.innerHTML = `
+                <div class="post-header">
+                    <span>${escapeHtml(firstPost.username)}</span>
+                    <span class="post-date">${escapeHtml(dateStr)}</span>
+                </div>
+                <div class="post-body">${escapeHtml(firstPost.text)}</div>
+            `;
+            if (firstPost.fileUrl) {
+                if (firstPost.fileType.startsWith('image/')) {
+                    article.innerHTML += `<img src="${escapeHtml(firstPost.fileUrl)}" alt="Image" style="max-width: 100%; height: auto; margin-top: 10px;" />`;
+                } else if (firstPost.fileType.startsWith('audio/')) {
+                    article.innerHTML += `<audio controls style="margin-top: 10px;">
+                        <source src="${escapeHtml(firstPost.fileUrl)}" type="${escapeHtml(firstPost.fileType)}">
+                        Your browser does not support audio.
+                    </audio>`;
+                } else if (firstPost.fileType.startsWith('video/')) {
+                    article.innerHTML += `<video controls style="margin-top: 10px; max-width: 300px; height: auto;">
+                        <source src="${escapeHtml(firstPost.fileUrl)}" type="${escapeHtml(firstPost.fileType)}">
+                        Your browser does not support video.
+                    </video>`;
+                }
+            }
+            postsContainer.appendChild(article);
+        }
+
+        // Отображаем остальные сообщения
+        otherPosts.forEach(post => {
             const article = document.createElement('article');
             article.className = 'post';
             const dateStr = new Date(post.date).toLocaleString('en-US', {dateStyle: 'short', timeStyle: 'short'}) || post.date;
