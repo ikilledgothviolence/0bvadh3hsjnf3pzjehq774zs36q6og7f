@@ -125,6 +125,12 @@
             <label for="text-input">Сообщение:</label>
             <textarea id="text-input" name="text" maxlength="500" rows="4" required placeholder="Ваш комментарий"></textarea>
 
+            <label for="file-url-input">URL файла (изображение, аудио или видео):</label>
+            <input id="file-url-input" name="fileUrl" type="text" placeholder="URL к файлу" />
+
+            <label for="file-type-input">Тип файла:</label>
+            <input id="file-type-input" name="fileType" type="text" placeholder="image/jpeg, audio/mpeg, video/mp4" />
+
             <button type="submit" disabled>Отправить</button>
         </form>
     </section>
@@ -139,6 +145,8 @@
     const form = document.getElementById('new-post-form');
     const usernameInput = document.getElementById('username-input');
     const textInput = document.getElementById('text-input');
+    const fileUrlInput = document.getElementById('file-url-input');
+    const fileTypeInput = document.getElementById('file-type-input');
     const submitBtn = form.querySelector('button');
     const toast = document.getElementById('toast');
 
@@ -189,6 +197,11 @@
                         <source src="${escapeHtml(post.fileUrl)}" type="${escapeHtml(post.fileType)}">
                         Ваш браузер не поддерживает аудио.
                     </audio>`;
+                } else if (post.fileType.startsWith('video/')) {
+                    article.innerHTML += `<video controls style="margin-top: 10px; max-width: 100%;">
+                        <source src="${escapeHtml(post.fileUrl)}" type="${escapeHtml(post.fileType)}">
+                        Ваш браузер не поддерживает видео.
+                    </video>`;
                 }
             }
             postsContainer.appendChild(article);
