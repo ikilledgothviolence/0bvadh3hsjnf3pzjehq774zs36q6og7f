@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Форум 2000-х в стиле GitHub CSV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&family=Material+Icons&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset и базовые стили */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      background-color: #000000;
+      font-family: 'Inter', sans-serif;
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* --- Header --- */
+    header {
+      position: sticky;
+      top: 0;
+      height: 64px;
+      background: rgba(15, 15, 15, 0.75);
+      backdrop-filter: blur(14px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      border-bottom: 1px solid rgba(255 255 255 / 0.05);
+      z-index: 1000;
+      user-select: none;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-left .material-icons {
+      font-size: 36px;
+      color: #6366f1;
+    }
+    .header-left h1 {
+      font-weight: 900;
+      font-size: clamp(20px, 2vw, 32px);
+      letter-spacing: 0.12em;
+      color: #818cf8;
+      text-shadow: 0 0 8px #6366f1a0;
+      user-select: text;
+    }
+
+    /* --- Layout --- */
+    main {
+      display: flex;
+      flex-grow: 1;
+      overflow: hidden;
+      min-height: calc(100vh - 64px);
+    }
+
+    /* Sidebar */
+    nav.sidebar {
+      width: 280px;
+      background: rgba(30,30,30,0.85);
+      backdrop-filter: blur(16px);
+      border-right: 1px solid rgba(255 255 255 / 0.07);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px;
+      gap: 24px;
+    }
+    nav.sidebar .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #9ca3af;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      user-select: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    nav.sidebar .nav-item:hover, nav.sidebar .nav-item.active {
+      background-color: rgba(99,102,241,0.3);
+      color: #6366f1;
+      box-shadow: 0 0 10px 2px #6366f1aa;
+    }
+    nav.sidebar .material-icons {
+      font-size: 24px;
+      color: inherit;
+      user-select: none;
+    }
+
+    /* Main content */
+    section.content {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Карточка поста */
+    article.post {
+      background: rgba(30,30,30,0.8);
+      border-radius: 16px;
+      padding: 24px 28px;
+      box-shadow: 0 4px 12px rgba(99,102,241,0.24);
+      transition: transform 0.3s cubic-bezier(0.25,1,0.5,1);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    article.post:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(99,102,241,0.45);
+    }
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #a5b4fc;
+      font-weight: 600;
+      user-select: text;
+    }
+    .post-body {
+      font-size: clamp(15px, 1vw, 18px);
+      line-height: 1.5;
+      white-space: pre-wrap;
+      color: #e0e0e0;
+      user-select: text;
+    }
+
+    /* Вложенные медиа */
+    .post-media {
+      margin-top: 16px;
+      border-radius: 12px;
+      overflow: hidden;
+      max-height: 400px;
+      box-shadow: 0 0 18px rgba(99,102,241,0.25);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .post-media img,
+    .post-media video {
+      max-width: 100%;
+      max-height: 400px;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    /* Форма комментария */
+    form#new-post-form {
+      background: rgba(24,24,24,0.9);
+      border-radius: 20px;
+      padding: 28px 32px;
+      box-shadow: 0 0 20px rgba(99,102,241,0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 720px;
+      margin: 0 auto 40px auto;
+    }
+    form#new-post-form label {
+      font-weight: 700;
+      font-size: 16px;
+      color: #818cf8;
+      user-select: none;
+    }
+    form#new-post-form input[type="text"],
+    form#new-post-form textarea,
+    form#new-post-form input[type="file"] {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: none;
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      resize: vertical;
+      background: rgba(40,40,40,0.8);
+      color: #ddd;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.85);
+      transition: box-shadow 0.3s ease;
+    }
+    form#new-post-form input[type="text"]:focus,
+    form#new-post-form textarea:focus {
+      outline: none;
+      box-shadow: 0 0 16px #6366f1aa;
+    }
+    form#new-post-form textarea {
+      min-height: 96px;
+      max-height: 160px;
+    }
+    form#new-post-form button {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #6366f1, #818cf8);
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 4px 14px rgba(99,102,241,0.6);
+      transition: background 0.3s ease;
+    }
+    form#new-post-form button:hover {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+    }
+    form#new-post-form button:disabled {
+      background: rgba(99,102,241,0.4);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Toast уведомление */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30,30,30,0.95);
+      border-radius: 12px;
+      padding: 14px 28px;
+      color: #aaddff;
+      font-weight: 600;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 16px #6366f1bb;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 2000;
+    }
+    #toast.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+      nav.sidebar {
+        display: none;
+      }
+      main {
+        padding: 0 16px;
+      }
+      section.content {
+        padding: 24px 16px;
+        max-width: 100%;
+      }
+      form#new-post-form {
+        max-width: 100%;
+        margin: 0 0 24px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <span class="material-icons" aria-hidden="true">forum</span>
+      <h1>ФОРУМ 2000Х (GitHub CSV)</h1>
+    </div>
+  </header>
+  <main>
+    <nav class="sidebar" aria-label="Навигация форума">
+      <div class="nav-item active" tabindex="0" aria-current="page">
+        <span class="material-icons" aria-hidden="true">home</span>Главная
+      </div>
+      <div class="nav-item" tabindex="0">
+        <span class="material-icons" aria-hidden="true">search</span>Поиск
+      </div>
+      <div class="nav-item" tabindex="0">
+        <span class="material-icons" aria-hidden="true">settings</span>Настройки
+      </div>
+    </nav>
+    <section class="content" aria-live="polite" aria-relevant="additions removals">
+      <form id="new-post-form" aria-label="Создать новый комментарий">
+        <label for="username-input">Ваш никнейм</label>
+        <input type="text" id="username-input" name="username" autocomplete="username" maxlength="30" required aria-required="true" placeholder="Введите никнейм" />
+
+        <label for="text-input">Сообщение</label>
+        <textarea id="text-input" name="text" maxlength="500" required aria-required="true" placeholder="Введите сообщение"></textarea>
+
+        <label for="file-input">Прикрепить файлы (фото, видео)</label>
+        <input type="file" id="file-input" name="files" multiple accept="image/*,video/*" aria-describedby="file-desc"/>
+        <small id="file-desc" style="color:#999;">Максимум 3 файла, до 5MB каждый</small>
+
+        <button type="submit" disabled>Отправить</button>
+      </form>
+      <div id="posts-container" aria-label="Список сообщений форума" tabindex="0"></div>
+    </section>
+  </main>
+
+  <div id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <script>
+    /* Config */
+    const CSV_URL = 'https://youruser.github.io/my-forum-data/comments.csv'; 
+    // Поставьте сюда URL реального публичного CSV из вашего репо GitHub Pages!
+    // Формат CSV:
+    // id,username,date,text,fileUrl,fileType
+
+    /* Вспомогательные функции */
+    function parseCSV(text) {
+      const lines = text.trim().split('\\n');
+      const headers = lines[0].split(',');
+      return lines.slice(1).map(line => {
+        const values = line.match(/(".*?"|[^",]+)(?=,|$)/g);
+        return headers.reduce((acc, h, i) => {
+          let val = values[i] || '';
+          if(val.startsWith('"') && val.endsWith('"')) {
+            val = val.slice(1,-1).replace(/\\"/g, '"');
+          }
+          acc[h] = val;
+          return acc;
+        }, {});
+      });
+    }
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    /* UI Вывод сообщений */
+    const postsContainer = document.getElementById('posts-container');
+    function renderPosts(posts) {
+      postsContainer.innerHTML = '';
+      if(posts.length === 0) {
+        postsContainer.innerHTML = '<p style="color:#888; user-select:none;">Пока нет сообщений.</p>';
+        return;
+      }
+      posts.forEach(post => {
+        const postElem = document.createElement('article');
+        postElem.className = 'post';
+        const dateStr = new Date(post.date).toLocaleString('ru-RU', {dateStyle: 'short', timeStyle: 'short'});
+        postElem.innerHTML = \`
+          <div class="post-header">
+            <div class="post-user">\${escapeHtml(post.username)}</div>
+            <div class="post-date" aria-label="Дата и время публикации">\${dateStr}</div>
+          </div>
+          <div class="post-body">\${escapeHtml(post.text)}</div>
+        \`;
+        if (post.fileUrl) {
+          const mediaWrapper = document.createElement('div');
+          mediaWrapper.className = 'post-media';
+          // Определяем правовй тип
+          if (post.fileType.startsWith('video')) {
+            const video = document.createElement('video');
+            video.controls = true;
+            video.src = post.fileUrl;
+            video.alt = 'Прикрепленное видео';
+            mediaWrapper.appendChild(video);
+          } else if (post.fileType.startsWith('image')) {
+            const img = document.createElement('img');
+            img.src = post.fileUrl;
+            img.alt = 'Прикрепленное изображение';
+            mediaWrapper.appendChild(img);
+          }
+          postElem.appendChild(mediaWrapper);
+        }
+        postsContainer.appendChild(postElem);
+      });
+    }
+
+    /* Загрузка комментариев из CSV */
+    async function loadPosts() {
+      try {
+        const res = await fetch(CSV_URL);
+        if(!res.ok) throw new Error('Не удалось загрузить данные');
+        const text = await res.text();
+        const posts = parseCSV(text);
+        posts.sort((a,b) => new Date(b.date) - new Date(a.date)); // Новые = сверху
+        renderPosts(posts);
+      } catch(e) {
+        postsContainer.innerHTML = '<p style="color:red; user-select:none;">Ошибка загрузки комментариев.</p>';
+        console.error('Ошибка загрузки комментариев:', e);
+      }
+    }
+
+    /* Toast уведомления */
+    const toast = document.getElementById('toast');
+    let toastTimeout = null;
+    function showToast(message, duration=3000) {
+      clearTimeout(toastTimeout);
+      toast.textContent = message;
+      toast.classList.add('show');
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, duration);
+    }
+
+    /* Работа с формой - пока без отправки, инструкции ниже */
+    const form = document.getElementById('new-post-form');
+    const usernameInput = form.elements['username'];
+    const textInput = form.elements['text'];
+    const fileInput = form.elements['files'];
+    const submitBtn = form.querySelector('button');
+
+    function validateForm() {
+      const validText = textInput.value.trim().length > 0;
+      const validUser = usernameInput.value.trim().length > 0;
+      submitBtn.disabled = !(validText && validUser);
+    }
+    usernameInput.addEventListener('input', validateForm);
+    textInput.addEventListener('input', validateForm);
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      // Здесь должна быть логика добавления комментария.
+      // Но загрузка в CSV на GitHub из браузера без сервера невозможна.
+      // Можно реализовать инструкцию ниже.
+      showToast('Добавление сообщений пока недоступно.\nПожалуйста, обновляйте CSV вручную.');
+    });
+
+    /* Загрузка */
+    loadPosts();
+  </script>
+</body>
+</html>
