@@ -6,246 +6,111 @@
     <meta name="keywords" content="gothviolence, ikilledgothviolence" />
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <title>www.ikilledgothviolence.ru</title>
-    <link href="https://fonts.googleapis.com/css2?family=Arial&display=swap" rel="stylesheet" />
     <style>
-        /* Минималистичный стиль 2000-х годов */
-        * {
+        body,
+        html {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-        html, body {
-            background-color: black;
-            color: #CCCCCC;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-        header {
-            height: 64px;
-            background: #111111;
-            color: #CCCCCC;
+            height: 100%;
+            overflow: hidden;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding-left: 16px;
-            font-weight: bold;
-            font-size: 20px;
-            border-bottom: 2px solid #444;
+            background-image: url('https://ikilledgothviolence.ru/archive/photo_2025-06-06_08-46-28.jpg');
+            background-color: black;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
-        main {
-            padding: 20px 16px;
-            max-width: 720px;
-            margin: 0 auto;
-        }
-        article.post {
-            background-color: #222;
-            border: 1px solid #666;
-            padding: 12px 14px;
-            margin-bottom: 12px;
-        }
-        .post-header {
-            font-weight: bold;
-            font-size: 13px;
-            margin-bottom: 6px;
-        }
-        .post-date {
-            font-weight: normal;
-            font-size: 11px;
-            color: #999999;
-            float: right;
-        }
-        .post-body {
-            white-space: pre-wrap;
-            font-family: Arial, sans-serif;
-        }
-        form#new-post-form {
-            background-color: #111111;
-            border: 1px solid #444;
-            padding: 14px 16px;
-            margin-top: 24px;
-            margin-bottom: 40px;
-        }
-        form#new-post-form label {
-            display: block;
-            margin-bottom: 4px;
-            color: #CCCCCC;
-            font-weight: normal;
-        }
-        form#new-post-form input[type=text],
-        form#new-post-form textarea {
+        #videoPlayer {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 8px;
-            font-size: 14px;
-            margin-bottom: 10px;
-            border: 1px solid #555;
-            background: #000;
-            color: #CCC;
-            font-family: Arial, sans-serif;
-        }
-        form#new-post-form button {
-            background-color: #333;
-            color: #CCC;
-            border: 1px solid #555;
-            padding: 8px 18px;
-            cursor: pointer;
-            font-size: 14px;
-            font-family: Arial, sans-serif;
-        }
-        #toast {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #222;
-            color: #ccc;
-            padding: 8px 20px;
-            border: 1px solid #444;
-            font-size: 13px;
+            height: 100%;
+            object-fit: cover;
             display: none;
-            opacity: 0.95;
-            max-width: 300px;
+            z-index: 0;
+        }
+        #menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
             text-align: center;
+            z-index: 10;
+        }
+        #menu a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+        #startButton {
+            position: relative;
+            z-index: 20;
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: -420px;
+            user-select: none;
         }
     </style>
 </head>
 <body>
-<header>
-    Message Board
-</header>
-<main>
-    <section aria-live="polite" aria-relevant="additions removals">
-        <div id="posts-container" tabindex="0" aria-label="Сообщения форума">
-            Загрузка сообщений...
-        </div>
+    <div id="menu">
+        <a href="https://soundcloud.com/gothviolence" target="_blank" rel="noopener noreferrer">i --&-- ii</a>
+    </div>
 
-        <form id="new-post-form" aria-label="Добавить новый комментарий" novalidate>
-            <label for="username-input">Никнейм:</label>
-            <input id="username-input" name="username" type="text" maxlength="30" required placeholder="Ваш ник" autocomplete="off" />
+    <video id="videoPlayer" playsinline>
+        <source src="https://ikilledgothviolence.ru/archive/videoplayback.mp4" type="video/mp4" />
+        Ваш браузер не поддерживает видео.
+    </video>
 
-            <label for="text-input">Сообщение:</label>
-            <textarea id="text-input" name="text" maxlength="500" rows="4" required placeholder="Ваш комментарий"></textarea>
+    <audio id="audioPlayer" playsinline>
+        <source src="https://ikilledgothviolence.ru/archive/╝Ћ६Ꭿჩ†ᗫ4ʍᏘ₲ξ♀.mp4" type="audio/mp4" />
+        Ваш браузер не поддерживает аудио.
+    </audio>
 
-            <label for="file-url-input">URL файла (изображение, аудио или видео):</label>
-            <input id="file-url-input" name="fileUrl" type="text" placeholder="URL к файлу" />
+    <button id="startButton">दुःख</button>
 
-            <label for="file-type-input">Тип файла:</label>
-            <input id="file-type-input" name="fileType" type="text" placeholder="image/jpeg, audio/mpeg, video/mp4" />
+    <script>
+        const videoPlayer = document.getElementById('videoPlayer');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const startButton = document.getElementById('startButton');
 
-            <button type="submit" disabled>Отправить</button>
-        </form>
-    </section>
-</main>
-
-<div id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
-
-<script>
-    const CSV_URL = 'comments.csv'; // Используйте относительный путь к вашему CSV
-
-    const postsContainer = document.getElementById('posts-container');
-    const form = document.getElementById('new-post-form');
-    const usernameInput = document.getElementById('username-input');
-    const textInput = document.getElementById('text-input');
-    const fileUrlInput = document.getElementById('file-url-input');
-    const fileTypeInput = document.getElementById('file-type-input');
-    const submitBtn = form.querySelector('button');
-    const toast = document.getElementById('toast');
-
-    function parseCSV(text) {
-        const lines = text.trim().split('\n');
-        const headers = lines[0].split(',');
-        return lines.slice(1).map(line => {
-            const values = line.match(/(".*?"|[^",]+)(?=,|$)/g) || [];
-            return headers.reduce((obj, header, idx) => {
-                let val = values[idx] || "";
-                if(val.startsWith('"') && val.endsWith('"')) {
-                    val = val.slice(1, -1).replace(/""/g, '"');
-                }
-                obj[header] = val;
-                return obj;
-            }, {});
+        window.addEventListener('load', () => {
+            audioPlayer.volume = 0.10;
+            audioPlayer.play();
         });
-    }
 
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
+        startButton.addEventListener('click', () => {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
 
-    function renderPosts(posts) {
-        postsContainer.innerHTML = '';
-        if(posts.length === 0) {
-            postsContainer.textContent = 'Пока нет сообщений.';
-            return;
-        }
-        posts.forEach(post => {
-            const article = document.createElement('article');
-            article.className = 'post';
-            const dateStr = new Date(post.date).toLocaleString('ru-RU', {dateStyle: 'short', timeStyle: 'short'}) || post.date;
-            article.innerHTML = `
-                <div class="post-header">
-                    <span>${escapeHtml(post.username)}</span>
-                    <span class="post-date">${escapeHtml(dateStr)}</span>
-                </div>
-                <div class="post-body">${escapeHtml(post.text)}</div>
-            `;
-            if (post.fileUrl) {
-                if (post.fileType.startsWith('image/')) {
-                    article.innerHTML += `<img src="${escapeHtml(post.fileUrl)}" alt="Изображение" style="max-width: 100%; height: auto; margin-top: 10px;" />`;
-                } else if (post.fileType.startsWith('audio/')) {
-                    article.innerHTML += `<audio controls style="margin-top: 10px;">
-                        <source src="${escapeHtml(post.fileUrl)}" type="${escapeHtml(post.fileType)}">
-                        Ваш браузер не поддерживает аудио.
-                    </audio>`;
-                } else if (post.fileType.startsWith('video/')) {
-                    article.innerHTML += `<video controls style="margin-top: 10px; max-width: 100%;">
-                        <source src="${escapeHtml(post.fileUrl)}" type="${escapeHtml(post.fileType)}">
-                        Ваш браузер не поддерживает видео.
-                    </video>`;
-                }
-            }
-            postsContainer.appendChild(article);
+            videoPlayer.style.display = 'block';
+            startButton.style.display = 'none';
+            videoPlayer.volume = 0.10;
+            videoPlayer.play();
         });
-    }
 
-    async function loadPosts() {
-        postsContainer.textContent = 'Загрузка сообщений...';
-        try {
-            const res = await fetch(CSV_URL);
-            if(!res.ok) throw new Error('Ошибка загрузки CSV');
-            const text = await res.text();
-            let posts = parseCSV(text);
-            posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-            renderPosts(posts);
-        } catch(e) {
-            postsContainer.textContent = 'Ошибка загрузки сообщений.';
-            console.error(e);
-        }
-    }
+        videoPlayer.addEventListener('ended', () => {
+            location.reload();
+        });
 
-    let toastTimeout;
-    function showToast(message, duration=3000) {
-        toast.textContent = message;
-        toast.style.display = 'block';
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {
-            toast.style.display = 'none';
-        }, duration);
-    }
+    </script>
 
-    function validateForm() {
-        submitBtn.disabled = !(usernameInput.value.trim().length > 0 && textInput.value.trim().length > 0);
-    }
-
-    usernameInput.addEventListener('input', validateForm);
-    textInput.addEventListener('input', validateForm);
-
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        showToast('Отправка сообщений на данный момент невозможна. Пожалуйста, редактируйте CSV вручную.', 5000);
-    });
-
-    loadPosts();
-</script>
+    <!--
+    This program is licensed under the GNU General Public License v3.0.
+    See <http://www.gnu.org/licenses/> for details.
+    -->
+    
 </body>
 </html>
