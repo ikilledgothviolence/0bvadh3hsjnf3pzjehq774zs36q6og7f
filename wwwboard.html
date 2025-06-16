@@ -176,42 +176,8 @@
             return;
         }
 
-        // Сортируем сообщения, чтобы первое сообщение всегда было первым
-        const firstPost = posts[0]; // Сохраняем первое сообщение
-        const otherPosts = posts.slice(1); // Остальные сообщения
-
-        // Отображаем первое сообщение
-        if (firstPost) {
-            const article = document.createElement('article');
-            article.className = 'post';
-            const dateStr = new Date(firstPost.date).toLocaleString('en-US', {dateStyle: 'short', timeStyle: 'short'}) || firstPost.date;
-            article.innerHTML = `
-                <div class="post-header">
-                    <span>${escapeHtml(firstPost.username)}</span>
-                    <span class="post-date">${escapeHtml(dateStr)}</span>
-                </div>
-                <div class="post-body">${escapeHtml(firstPost.text)}</div>
-            `;
-            if (firstPost.fileUrl) {
-                if (firstPost.fileType.startsWith('image/')) {
-                    article.innerHTML += `<img src="${escapeHtml(firstPost.fileUrl)}" alt="Image" style="max-width: 100%; height: auto; margin-top: 10px;" />`;
-                } else if (firstPost.fileType.startsWith('audio/')) {
-                    article.innerHTML += `<audio controls style="margin-top: 10px;">
-                        <source src="${escapeHtml(firstPost.fileUrl)}" type="${escapeHtml(firstPost.fileType)}">
-                        Your browser does not support audio.
-                    </audio>`;
-                } else if (firstPost.fileType.startsWith('video/')) {
-                    article.innerHTML += `<video controls style="margin-top: 10px; max-width: 300px; height: auto;">
-                        <source src="${escapeHtml(firstPost.fileUrl)}" type="${escapeHtml(firstPost.fileType)}">
-                        Your browser does not support video.
-                    </video>`;
-                }
-            }
-            postsContainer.appendChild(article);
-        }
-
-        // Отображаем остальные сообщения
-        otherPosts.forEach(post => {
+        // Отображаем сообщения
+        posts.forEach(post => {
             const article = document.createElement('article');
             article.className = 'post';
             const dateStr = new Date(post.date).toLocaleString('en-US', {dateStyle: 'short', timeStyle: 'short'}) || post.date;
@@ -248,7 +214,8 @@
             if(!res.ok) throw new Error('Error loading CSV');
             const text = await res.text();
             let posts = parseCSV(text);
-            posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            // Сортируем по возрастанию даты (старые сверху, новые снизу)
+            posts.sort((a, b) => new Date(a.date) - new Date(b.date));
             renderPosts(posts);
         } catch(e) {
             postsContainer.textContent = 'Error loading messages.';
@@ -256,12 +223,10 @@
         }
     }
 
-    let toastTimeout;
     function showToast(message, duration=3000) {
         toast.textContent = message;
         toast.style.display = 'block';
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {
+        setTimeout(() => {
             toast.style.display = 'none';
         }, duration);
     }
