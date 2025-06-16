@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Anonymous Border</title>
-<!-- Подключение шрифта и иконок -->
-<link href="https://fonts.googleapis.com/css2?family=Arial&family=Material+Icons&display=swap" rel="stylesheet" />
+<title>www.ikilledgothviolence.ru</title>
+<link href="https://fonts.googleapis.com/css2?family=Arial&display=swap" rel="stylesheet" />
 <style>
   /* Минималистичный стиль 2000-х годов */
   * {
@@ -22,7 +21,6 @@
     line-height: 1.4;
   }
 
-  /* Хедер - самый простой 2000-х */
   header {
     height: 64px;
     background: #111111;
@@ -41,7 +39,6 @@
     margin: 0 auto;
   }
 
-  /* Карточка сообщения */
   article.post {
     background-color: #222;
     border: 1px solid #666;
@@ -67,23 +64,6 @@
     font-family: Arial, sans-serif;
   }
 
-  /* Вложения */
-  .post-media {
-    margin-top: 10px;
-    max-width: 100%;
-  }
-  .post-media img, .post-media video {
-    max-width: 100%;
-    max-height: 320px;
-    border: 1px solid #444;
-  }
-
-  /* Убран подсветка */
-  *::selection {
-    background: transparent;
-  }
-
-  /* Форма */
   form#new-post-form {
     background-color: #111111;
     border: 1px solid #444;
@@ -100,8 +80,7 @@
   }
 
   form#new-post-form input[type=text],
-  form#new-post-form textarea,
-  form#new-post-form input[type=file] {
+  form#new-post-form textarea {
     width: 100%;
     padding: 8px;
     font-size: 14px;
@@ -122,12 +101,6 @@
     font-family: Arial, sans-serif;
   }
 
-  form#new-post-form button:disabled {
-    background-color: #111;
-    cursor: not-allowed;
-  }
-
-  /* Тост уведомление */
   #toast {
     position: fixed;
     bottom: 10px;
@@ -143,22 +116,11 @@
     max-width: 300px;
     text-align: center;
   }
-
-  /* Скроллбары простые */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #111;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #444;
-  }
 </style>
 </head>
 <body>
 <header>
-  ФОРУМ В СТИЛЕ 2000-х
+  Anonymous Border
 </header>
 <main>
   <section aria-live="polite" aria-relevant="additions removals">
@@ -172,9 +134,6 @@
 
       <label for="text-input">Сообщение:</label>
       <textarea id="text-input" name="text" maxlength="500" rows="4" required placeholder="Ваш комментарий"></textarea>
-
-      <label for="file-input">Прикрепить файлы (фото, видео) (макс 3 файла)</label>
-      <input id="file-input" type="file" name="files" multiple accept="image/*,video/*" />
 
       <button type="submit" disabled>Отправить</button>
     </form>
@@ -190,16 +149,13 @@
   const form = document.getElementById('new-post-form');
   const usernameInput = document.getElementById('username-input');
   const textInput = document.getElementById('text-input');
-  const fileInput = document.getElementById('file-input');
   const submitBtn = form.querySelector('button');
   const toast = document.getElementById('toast');
 
-  // Функция для разбора CSV
   function parseCSV(text) {
     const lines = text.trim().split('\n');
     const headers = lines[0].split(',');
     return lines.slice(1).map(line => {
-      // Разбираем CSV строку, учитывая кавычки и запятые
       const values = line.match(/(".*?"|[^",]+)(?=,|$)/g) || [];
       return headers.reduce((obj, header, idx) => {
         let val = values[idx] || "";
@@ -218,7 +174,6 @@
     return div.innerHTML;
   }
 
-  // Функция отрисовки сообщений
   function renderPosts(posts) {
     postsContainer.innerHTML = '';
     if(posts.length === 0) {
@@ -229,30 +184,13 @@
       const article = document.createElement('article');
       article.className = 'post';
       const dateStr = new Date(post.date).toLocaleString('ru-RU', {dateStyle: 'short', timeStyle: 'short'}) || post.date;
-      article.innerHTML = \`
+      article.innerHTML = `
         <div class="post-header">
-          <span>\${escapeHtml(post.username)}</span>
-          <span class="post-date">\${escapeHtml(dateStr)}</span>
+          <span>${escapeHtml(post.username)}</span>
+          <span class="post-date">${escapeHtml(dateStr)}</span>
         </div>
-        <div class="post-body">\${escapeHtml(post.text)}</div>
-      \`;
-      if(post.fileUrl) {
-        const mediaWrapper = document.createElement('div');
-        mediaWrapper.className = 'post-media';
-        if(post.fileType.startsWith('video')) {
-          const video = document.createElement('video');
-          video.src = post.fileUrl;
-          video.controls = true;
-          video.alt = 'Видео';
-          mediaWrapper.appendChild(video);
-        } else if(post.fileType.startsWith('image')) {
-          const img = document.createElement('img');
-          img.src = post.fileUrl;
-          img.alt = 'Изображение';
-          mediaWrapper.appendChild(img);
-        }
-        article.appendChild(mediaWrapper);
-      }
+        <div class="post-body">${escapeHtml(post.text)}</div>
+      `;
       postsContainer.appendChild(article);
     });
   }
@@ -272,7 +210,6 @@
     }
   }
 
-  // Отображение тоста
   let toastTimeout;
   function showToast(message, duration=3000) {
     toast.textContent = message;
@@ -295,7 +232,6 @@
     showToast('Отправка сообщений на данный момент невозможна. Пожалуйста, редактируйте CSV вручную.', 5000);
   });
 
-  // Загрузка сообщений при старте
   loadPosts();
 </script>
 </body>
