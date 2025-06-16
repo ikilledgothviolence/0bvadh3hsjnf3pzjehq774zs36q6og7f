@@ -14,7 +14,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         html, body {
             background-color: black;
             color: #CCCCCC;
@@ -22,7 +21,6 @@
             font-size: 14px;
             line-height: 1.4;
         }
-
         header {
             height: 64px;
             background: #111111;
@@ -34,38 +32,32 @@
             font-size: 20px;
             border-bottom: 2px solid #444;
         }
-
         main {
             padding: 20px 16px;
             max-width: 720px;
             margin: 0 auto;
         }
-
         article.post {
             background-color: #222;
             border: 1px solid #666;
             padding: 12px 14px;
             margin-bottom: 12px;
         }
-
         .post-header {
             font-weight: bold;
             font-size: 13px;
             margin-bottom: 6px;
         }
-
         .post-date {
             font-weight: normal;
             font-size: 11px;
             color: #999999;
             float: right;
         }
-
         .post-body {
             white-space: pre-wrap;
             font-family: Arial, sans-serif;
         }
-
         form#new-post-form {
             background-color: #111111;
             border: 1px solid #444;
@@ -73,14 +65,12 @@
             margin-top: 24px;
             margin-bottom: 40px;
         }
-
         form#new-post-form label {
             display: block;
             margin-bottom: 4px;
             color: #CCCCCC;
             font-weight: normal;
         }
-
         form#new-post-form input[type=text],
         form#new-post-form textarea {
             width: 100%;
@@ -92,7 +82,6 @@
             color: #CCC;
             font-family: Arial, sans-serif;
         }
-
         form#new-post-form button {
             background-color: #333;
             color: #CCC;
@@ -102,7 +91,6 @@
             font-size: 14px;
             font-family: Arial, sans-serif;
         }
-
         #toast {
             position: fixed;
             bottom: 10px;
@@ -193,6 +181,16 @@
                 </div>
                 <div class="post-body">${escapeHtml(post.text)}</div>
             `;
+            if (post.fileUrl) {
+                if (post.fileType.startsWith('image/')) {
+                    article.innerHTML += `<img src="${escapeHtml(post.fileUrl)}" alt="Изображение" style="max-width: 100%; height: auto; margin-top: 10px;" />`;
+                } else if (post.fileType.startsWith('audio/')) {
+                    article.innerHTML += `<audio controls style="margin-top: 10px;">
+                        <source src="${escapeHtml(post.fileUrl)}" type="${escapeHtml(post.fileType)}">
+                        Ваш браузер не поддерживает аудио.
+                    </audio>`;
+                }
+            }
             postsContainer.appendChild(article);
         });
     }
